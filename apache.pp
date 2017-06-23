@@ -1,9 +1,17 @@
-$package_name = 'httpd'
+class mypack::apache {
+    # resources
 
+    $package_name = $facts['os']['family'] ? {
+        'RedHat' => 'httpd',
+        'Debian' => 'apache2'
+    }
 
-package { $package_name:
-     ensure => installed
-}
-service { $package_name:
-     ensure => running
-}
+    package { $package_name :
+        ensure => installed,
+        
+    }
+
+    service { $package_name:
+        ensure     => running,
+        enable     => true,
+    }
